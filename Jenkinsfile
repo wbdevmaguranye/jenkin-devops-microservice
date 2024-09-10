@@ -1,30 +1,22 @@
 pipeline {
-   agent any
-	// agent{
-	// 	docker{image 'maven:3.6.3'}
-	// }
-    // agent{
-	// 	docker{image 'node:13.8'}
-	// }
-    environment{
-        dockerHome = tool 'myDocker'
-        mavenHome = tool 'myMaven'
-        PATH = "$dockerHome/bin:$mavenHome/bin$PATH"
+    agent any
+    environment {
+        dockerHome = tool name: 'myDocker', type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool'
+        mavenHome = tool name: 'myMaven', type: 'hudson.tasks.Maven$MavenInstallation'
+        PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
     }
     stages {
         stage('Build') {
             steps {
-          sh "mvn --version"
-          sh "docker version"
+                sh "mvn --version"
+                sh "docker version"
                 echo "Build"
-                echo "Build"
-                echo "PATH-$PATH"
-                echo "BUILD_NUMBER-$env.BUILD_NUMBER"
-                echo "BUILD_ID-$env.BUILD_ID"
-                echo "JOB_NAME-$env.JOB_NAME"
-                echo "BUILD_TAG-$env.BUILD_TAG"
-                echo "BUILD_URL-$env.BUILD_URL"
-				
+                echo "PATH - ${env.PATH}"
+                echo "BUILD_NUMBER - ${env.BUILD_NUMBER}"
+                echo "BUILD_ID - ${env.BUILD_ID}"
+                echo "JOB_NAME - ${env.JOB_NAME}"
+                echo "BUILD_TAG - ${env.BUILD_TAG}"
+                echo "BUILD_URL - ${env.BUILD_URL}"
             }
         }
         stage('Test') {
@@ -48,8 +40,9 @@ pipeline {
         failure {
             echo 'I run when fail'
         }
-		//  changed {
-        //     echo 'Do  something when the status of the build changes'
+        // Uncomment if you want to do something when the build status changes
+        // changed {
+        //     echo 'Do something when the status of the build changes'
         // }
     }
 }
