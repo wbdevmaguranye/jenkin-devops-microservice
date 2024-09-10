@@ -2,27 +2,22 @@
 
 // DECLARATIVE
 pipeline {
-	agent any
-	stages{
-		stage('Build')
-		step{
-
-		echo"Build"
-		
-		}
-		stage('Test')
-		step{
-
-		
-		echo"Test"
-		
-		}
-		stage('Integration Test')
-		step{
-
-		echo"Integration Test"
-		
-		}
-	}
-	
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo "Build"
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Test"
+            }
+        }
+        stage('Integration Test') {
+            steps {
+                echo "Integration Test"
+            }
+        }
+    }
 }
