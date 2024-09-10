@@ -1,13 +1,15 @@
 pipeline {
-    // agent any
-	agent{
-		docker{image 'maven:3.6.3'}
-	}
+    agent {
+        docker { 
+            image 'maven:3.6.3'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     stages {
         stage('Build') {
             steps {
                 echo "Build"
-				sh "mvn --version"
+                sh "mvn --version"
             }
         }
         stage('Test') {
@@ -31,8 +33,5 @@ pipeline {
         failure {
             echo 'I run when fail'
         }
-		//  changed {
-        //     echo 'Do  something when the status of the build changes'
-        // }
     }
 }
